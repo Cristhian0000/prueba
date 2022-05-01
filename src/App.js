@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import Juego from "./components/Juego";
+import Puntuacion from "./components/Puntuacion";
+import NoEncontrado from "./components/NoEncontrado";
+import Inicio from './components/Inicio'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { UserContext } from "./context/userContext";
+import { useState } from "react";
 
 function App() {
+  const [contexto,setContexto]=useState({jugadorUno:'',jugadorDos:'',puntajeJugadorUno:0,puntajeJugadorDos:0})
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+      <UserContext.Provider value={{contexto,setContexto}}>
+        <Routes>
+          <Route path="/" element={<Inicio/>}></Route>
+          <Route path="juego" element={<Juego />}></Route>
+          <Route path="puntuacion" element={<Puntuacion />}></Route>
+
+          <Route path="*" element={<NoEncontrado />}></Route>
+        </Routes>
+      </UserContext.Provider>
+    </BrowserRouter>
     </div>
   );
 }
