@@ -4,133 +4,161 @@ import { UserContext } from "../context/userContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
+import {
+  calculaPuntuacion,
+  calcularGanador,
+  calcularTiempo,
+} from "../utilitarios/utilitarios";
 
 const Juego = () => {
   const { contexto } = useContext(UserContext);
   const navigate = useNavigate();
-  // Array(9).fill(null)
-  const [tablero, setTablero] = useState({});
+  const [tablero, setTablero] = useState([Array(9).fill(null)]);
   const [movimiento, setMovimiento] = useState(0);
   const [turnoX, setTurnoX] = useState(true);
   const [ganador, setGanador] = useState(null);
-  const [puntuacion, setPuntuacion] = useState(0);
-  const [XuO,setXuO]=useState("X")
- const [tiempo,setTiempo]=useState(0)
-const [mostrarTablero,setMostrarTablero]=useState(false)
+  const [XuO, setXuO] = useState("X");
+  const [tiempo, setTiempo] = useState(0);
+  const [empate, setEmpate] = useState(false);
+  const [mostrarTablero, setMostrarTablero] = useState(false);
 
-  const calcularGanador = (jugadas) => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (
-        jugadas[a] &&
-        jugadas[a] === jugadas[b] &&
-        jugadas[a] === jugadas[c]
-      ) {
-        return jugadas[a];
-      }
-    }
-    return null;
-  };
-  const calculaPuntuacionPorMovimientos = (movimiento) => {
-    switch (movimiento) {
-      case 5:
-        return 10;
-      case 6:
-        return 8;
-
-      case 7:
-        return 5;
-
-      case 8:
-        return 3;
-
-      default:
-        return 0;
-    }
-  };
-   
   const handleClick = (i) => {
-    const tiempoJugada= Date.now-tiempo
+    const tiempoJugada = Date.now() - tiempo;
     const historialMovimientos = tablero.slice(0, movimiento + 1);
     const cuadrados = historialMovimientos[movimiento];
-    if (ganador ||cuadrados[i]) return;
-    cuadrados[i] = XuO;
+    if (ganador || (cuadrados[i] && cuadrados[i].simbolo)) return;
+    cuadrados[i] = {
+      simbolo: XuO,
+      tiempo: tiempoJugada,
+    };
     setTablero([...historialMovimientos, cuadrados]);
     setMovimiento(historialMovimientos.length);
-    setXuO(!turnoX?"X" : "O")
+    setXuO(!turnoX ? "X" : "O");
     setTurnoX(!turnoX);
-    
   };
+
+  const reiniciarPartida = () => {
+    setTablero([Array(9).fill(null)]);
+    setMovimiento(0);
+    setTurnoX(true);
+    setGanador(null);
+    setXuO("X");
+    setTiempo(0);
+    setEmpate(false);
+    setMostrarTablero(false);
+  };
+
   useEffect(() => {
-    const simboloGanador = calcularGanador(tablero[movimiento]);
-    setGanador(simboloGanador);
-    if (ganador) {
-      const puntaje = calculaPuntuacionPorMovimientos(movimiento);
-      setPuntuacion(puntaje);
-      return alert(
-        "El ganador es: " + ganador + " su puntuacion fue: " + puntaje
+    const almacenaPuntajes = (simboloGanador) => {
+      const nombreGanador =
+      simboloGanador === "X" ? contexto.jugadorX : contexto.jugadorO;
+      const tiempo = calcularTiempo(tablero[movimiento], simboloGanador);
+      const puntaje = calculaPuntuacion(movimiento, tiempo);
+      const ranking = JSON.parse(localStorage.getItem("ranking"));
+      ranking.push({
+        nombre: nombreGanador,
+        simbolo: simboloGanador,
+        puntaje: puntaje,
+      });
+      localStorage.setItem("ranking", JSON.stringify(ranking));
+      alert(
+        "El ganador es: " + nombreGanador + " su puntuacion fue: " + puntaje
       );
+    };
+    if (ganador) {
+      almacenaPuntajes(ganador);
     }
-    const almacenaPuntajes=()=>{
-      localStorage.setItem("puntaje",puntuacion)
-    }
-  }, [ganador, tablero, movimiento]);
+  }, [ganador]);
 
-  useEffect(() =>{
-    if (mostrarTablero===true){
-      setTiempo(Date.now)
-
+  useEffect(() => {
+    if (ganador === null && movimiento === 9) {
+      alert("Empate");
+      setEmpate(true);
     }
-  },[mostrarTablero])
+  }, [ganador, movimiento]);
+
+  useEffect(() => {
+    const jugadorGanador = calcularGanador(tablero[movimiento]);
+
+    setGanador(jugadorGanador);
+  }, [tablero, movimiento]);
+
+  useEffect(() => {
+    if (mostrarTablero === true) {
+      setTiempo(Date.now());
+    }
+  }, [turnoX, mostrarTablero]);
+
   return (
     <div className="px-4 py-2 my-2 text-center">
       <h1 className="display-5 fw-bold text-white">Juego de Tres En Raya</h1>
       <div className="col-lg-6 mx-auto">
         <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <input
-            className="form-control"
-            type="text"
-            defaultValue={contexto.jugadorUno}
+          <button
+            name={contexto.jugadorX}
+            type="button"
+            className={turnoX ? "btn btn-success" : "btn btn-outline-success"}
             disabled
-          />
-          <input
-            className="form-control"
-            type="text"
-            defaultValue={contexto.jugadorDos}
+          >
+            {contexto.jugadorX}
+          </button>
+          <button
+            name={contexto.jugadorO}
+            type="button"
+            className={turnoX ? "btn btn-outline-success" : "btn btn-success"}
             disabled
-          />
+          >
+            {contexto.jugadorO}
+          </button>
         </div>
-        <h5 className="text-end text-white">Puntuacion: {puntuacion}</h5>
-        <h5 className="text-end text-white">ganador: {ganador}</h5>
+
+        {/* {ganador && (
+          <div>
+            {" "}
+            <h5 className="text-end text-white">Puntuacion: </h5>
+            <h5 className="text-end text-white">ganador: {ganador}</h5>
+          </div>
+        )} */}
         <div>
-        {
-          mostrarTablero? <div className="mt-3">
-          <Tablero movimientos={tablero[movimiento]} onClick={handleClick} />
-        </div>:<button onClick={()=>setMostrarTablero(!mostrarTablero)}> Empezar juego</button>
-        }
+          {mostrarTablero ? (
+            <div className="mt-3">
+              <Tablero
+                movimientos={tablero[movimiento]}
+                onClick={handleClick}
+              />
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-outline-info btn-lg px-4 my-5 me-sm-3 fw-bold"
+              onClick={() => setMostrarTablero(!mostrarTablero)}
+            >
+              {" "}
+              iniciar Partida
+            </button>
+          )}
         </div>
-        
       </div>
 
       <div className="d-sm-flex justify-content-sm-center mt-3">
-        <button
-          type="button"
-          className="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold"
-          onClick={() => navigate("/puntuacion", { replace: true })}
-        >
-          Ver Puntuacion
-        </button>
+        {ganador && (
+          <button
+            type="button"
+            className="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold"
+            onClick={() => navigate("/puntuacion", { replace: true })}
+          >
+            Ver Puntuacion
+          </button>
+        )}
+        {empate && (
+          <button
+            type="button"
+            className="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold"
+            onClick={() => reiniciarPartida()}
+          >
+            Desempatar
+          </button>
+        )}
       </div>
     </div>
   );

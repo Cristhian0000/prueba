@@ -1,8 +1,7 @@
 import React from "react";
 
 const Cuadrado = ({ value, onClick }) => {
-  const Style = value ? `squares${value}` : "squares";
-  return <button className="square" onClick={onClick}>{value}</button>;
+  return <button className="cuadrado" onClick={onClick}>{value? value.simbolo : ""}</button>;
 };
 
 export default Cuadrado;

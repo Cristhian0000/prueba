@@ -7,7 +7,7 @@ import { UserContext } from "./context/userContext";
 import { useState } from "react";
 
 function App() {
-  const [contexto,setContexto]=useState({jugadorUno:'',jugadorDos:'',puntajeJugadorUno:0,puntajeJugadorDos:0})
+  const [contexto,setContexto]=useState({jugadorX:'',jugadorO:''})
   return (
     <div className="App">
     <BrowserRouter>

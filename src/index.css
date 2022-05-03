@@ -2,7 +2,7 @@ body{
   background: #212529;
 
 }
-.square {
+.cuadrado {
   background: #212529;
   border: 1px solid #212529;
   float: left;
@@ -17,7 +17,7 @@ body{
   color: white;
 }
 
-.board {
+.tablero {
   background: #0da192;
   width: 50%;
   height: 300px;
@@ -26,12 +26,4 @@ body{
   gap: 1rem;
   margin-left: auto;
   margin-right: auto;
-}
-.squares {
-  background: #272727;
-  border: none;
-  font-size: 5rem;
-  /* font-weight: 800; */
-  cursor: pointer;
-  outline: none;
 }
