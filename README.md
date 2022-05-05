@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# **Juego de 3 en raya**
+Juego de 3 en raya con javaScript  React js y Bootstrap
+## **Descripción**
+El juego de tres en raya esta escrito con el lenguaje Javascript y utlizando la libreria React js
+## **Programación del juego**
+El juego cuenta con dos modos, multijugador y Humano vs maquina, 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## **Modo Multijugador**
 
-## Available Scripts
+- ### Jugarán dos personas en el mismo dispositivo.
+- ### A cada jugador (**Jugador 1 vs Jugador 2**), se le asiganará un simbolo(**"X" u "O"**).
+- ### En este modo se evalua darles una puntuación al ganador de acuerdo a la cantidad de movimientos en la partida y al tiempo de respuesta por turno. 
+- ### Al terminar el juego aparecerá un mensaje con el nombre del ganador y su puntuación que obtuvo.
+- ### Podrá ver la puntuación en un ranking para saber en que puesto quedó.
 
-In the project directory, you can run:
+## **Modo Humano vs Máquina**
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- ### Jugará una persona contra la máquina en el mismo dispositivo.
+- ### A cada jugador (**Humano vs Maquina**), se le asiganará un simbolo correlativamente(**"X" u "O"**).
+- ### En este modo se evalua darles una puntuación al ganador de acuerdo a la cantidad de movimientos y al tiempo de respuesta por turno. 
+- ### Al terminar el juego aparecerá un mensaje con el nombre del ganador y su puntuación que obtuvo.
+- ### Podrá ver la puntuación en un ranking para saber en que puesto quedó.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# **Instalación**
+```console
+npm install 
+```
+# **Ejecución**
 
-### `npm test`
+```console
+npm run start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

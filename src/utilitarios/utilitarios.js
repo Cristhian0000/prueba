@@ -51,3 +51,15 @@ export const calculaPuntuacion = (movimiento, tiempoJuego) => {
     }
     return null;
   };
+
+  export const movimientoMaquina = (movimientos) => {
+    const indices = [];
+    movimientos.forEach((item, index) => {
+      if (item === null) {
+        indices.push(index);
+      }
+    });
+    const valorAleatorio = Math.floor(Math.random() * indices.length);
+    const posibleMovimiento = indices[valorAleatorio];
+    return posibleMovimiento
+  };
