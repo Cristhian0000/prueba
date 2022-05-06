@@ -11,14 +11,16 @@ const Inicio = () => {
   const modoJuego=searchParams.get('type_mode')
   
   const validar = (jugadorUno, jugadorDos) => {
+    const patron=new RegExp('^[A-Z]+$', 'i');
     const campo1 = document.getElementById(jugadorUno).value;
     const campo2 = document.getElementById(jugadorDos).value;
+    patron.test(campo1)
     if (modoJuego==="multijugador"){
-      return (campo1.length === 0 || campo2.length === 0)? false:true
+      return (campo1.length !== 0 && campo2.length !== 0 && patron.test(campo1) && patron.test(campo2))? true:false
     }
     else{
       contexto.jugadorO="PC"
-      return (campo1.length === 0)? false:true
+      return (campo1.length !== 0 && patron.test(campo1))? true:false
     }
     
   };
@@ -30,7 +32,8 @@ const Inicio = () => {
       }
       navigate("/Juego", { replace: true });
     } else {
-      alert("No olvide llenar los campos");
+      document.getElementById("X").focus();
+      alert("Campos Invalidos");
     }
   };
 
